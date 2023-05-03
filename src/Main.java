@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
-    static String[] products = {"1.Pan", "2.Manzanas", "3.Helados"};
+    static String[] products = {"1.Хлеб", "2.Яблоки", "3.Мороженка"};
     static int[] prices = {50, 100, 80};
     private static File textFile;
 
@@ -13,22 +13,22 @@ public class Main {
         int productNumber = 0;
         int productCount = 0;
 
-        File saveFile = new File("basket.txt");
+        File saveFile = new File("basket.bin");
 
         Basket basket = null;
         if (saveFile.exists()) {//проверяем наличие файла для восстановления данных о содержимом корзины
-            basket = Basket.loadFromTxtFile(saveFile);
+            basket = Basket.loadFromFileBin(saveFile);
         } else {// если файл неайден, создаем новый
             basket = new Basket(products, prices);
         }
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Lista de posibles bienes para la compra:");
+        System.out.println("Список продуктов для покупки:");
 
 
-        while (true) {
             showPrice();
-            System.out.println("Ingrese el número de artículo y la cantidad separados por un espacio. " +
-                    "Para completar, ingrese `end`");
+        while (true) {
+            System.out.println("ВВедите номер продукта и количество через пробел. " +
+                    "Для завершения введите `end`");
             String input = scanner.nextLine();
             if (input.equals("end")) {
               //  basket.printCart();
@@ -38,7 +38,7 @@ public class Main {
             productNumber = Integer.parseInt(parts[0]) - 1;
             productCount = Integer.parseInt(parts[1]);
             basket.addToCart(productNumber, productCount);
-            basket.saveTxt(saveFile);
+            basket.saveBin(saveFile);
         }
         basket.printCart(textFile);
 
@@ -46,7 +46,7 @@ public class Main {
 
     public static void showPrice() {
         for (int i = 0; i < products.length; i++) {
-            System.out.println(products[i] + " " + prices[i] + " rub./cantidad.");
+            System.out.println(products[i] + " " + prices[i] + " руб./шт.");
         }
     }
 }
